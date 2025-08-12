@@ -2,7 +2,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { RefreshCw, FileText, Zap, Clock, User, Eye, Globe, MessageCircle, Share2, Copy, Check, Download, EyeOff } from 'lucide-react';
+import { RefreshCw, FileText, Zap, Clock, User, Eye, Globe, MessageCircle, Share2, Copy, Check, Download, EyeOff, AlertTriangle, Wifi } from 'lucide-react';
+import { theoryService } from '@/lib/theoryService';
+import { geminiService } from '@/lib/gemini';
+import type { ConspiracyTheory, SharePlatform } from '@/types/conspiracy';
 
 // TypeScript interfaces inline
 interface Category {
@@ -11,16 +14,6 @@ interface Category {
   icon: React.ReactNode;
   color: string;
 }
-
-interface ConspiracyTheory {
-  id?: string;
-  content: string;
-  category: string;
-  createdAt: Date;
-  classification: 'TOP SECRET' | 'SECRET' | 'CONFIDENTIAL';
-}
-
-type SharePlatform = 'facebook' | 'twitter' | 'reddit';
 
 // Inline CategoryCard component
 interface CategoryCardProps {
@@ -114,6 +107,12 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({ theory, onShare, onSave }
     try {
       await navigator.clipboard.writeText(theory.content);
       setCopied(true);
+      
+      // Track copy event
+      if (theory.id) {
+        await theoryService.trackCopy(theory.id);
+      }
+      
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
@@ -170,20 +169,16 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({ theory, onShare, onSave }
         </div>
         
         <div className="border-t border-current/30 pt-4">
-          <div className="text-green-300 leading-relaxed text-sm whitespace-pre-wrap">
+          <div className="text-green-300 leading-relaxed text-lg whitespace-pre-wrap text-center font-bold">
             {isRedacted ? (
-              <div className="space-y-2">
-                {theory.content.split('.').map((sentence, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <div className="bg-black text-black select-none">
-                      {'█'.repeat(Math.min(sentence.length, 50))}
-                    </div>
-                    <span className="text-red-400 text-xs">[REDACTED]</span>
-                  </div>
-                ))}
+              <div className="flex items-center justify-center gap-2">
+                <div className="bg-black text-black select-none">
+                  {'█'.repeat(Math.min(theory.content.length, 30))}
+                </div>
+                <span className="text-red-400 text-sm">[REDACTED]</span>
               </div>
             ) : (
-              theory.content
+              `"${theory.content}"`
             )}
           </div>
         </div>
@@ -255,6 +250,16 @@ const ConspiracyGenerator: React.FC<ConspiracyGeneratorProps> = ({
   const [currentTheory, setCurrentTheory] = useState<ConspiracyTheory | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+  const [apiStatus, setApiStatus] = useState<{
+    gemini: boolean;
+    supabase: boolean;
+    checking: boolean;
+  }>({
+    gemini: false,
+    supabase: false,
+    checking: true
+  });
 
   const categories: Category[] = [
     { 
@@ -295,19 +300,34 @@ const ConspiracyGenerator: React.FC<ConspiracyGeneratorProps> = ({
     }
   ];
 
-  const mockTheories: Record<string, string> = {
-    'absurd-science': "CLASSIFIED INTEL REVEALS: The Large Hadron Collider isn't searching for particles - it's actually a massive interdimensional communication device built to maintain contact with our planet's original inhabitants who fled to parallel dimensions in 1962. Every 'particle collision' is actually a diplomatic meeting between Earth's shadow government and the Dimensional Council of Twelve. The 'Higgs boson' discovery was just a cover story for successfully establishing permanent communication protocols with beings who exist in quantum superposition.",
+  // Check API status on component mount
+  useEffect(() => {
+    const checkApiStatus = async () => {
+      setApiStatus(prev => ({ ...prev, checking: true }));
+      
+      try {
+        const [geminiStatus, supabaseStatus] = await Promise.all([
+          geminiService.testConnection(),
+          theoryService.testConnection()
+        ]);
+        
+        setApiStatus({
+          gemini: geminiStatus,
+          supabase: supabaseStatus,
+          checking: false
+        });
+      } catch (error) {
+        console.error('Error checking API status:', error);
+        setApiStatus({
+          gemini: false,
+          supabase: false,
+          checking: false
+        });
+      }
+    };
 
-    'historical-lies': "DECLASSIFIED DOCUMENTS CONFIRM: The moon landing footage was real, but it wasn't filmed on the moon - it was filmed on a secret sound stage built inside the hollow moon itself. NASA has been using the moon as a film studio since 1969, which explains why no other country has successfully landed there. The 'space race' was actually a cover story for the Moon Studio Monopoly, where all major historical events since 1970 have been pre-recorded and broadcast from lunar facilities.",
-
-    'celebrity-secrets': "LEAKED INTELLIGENCE: Taylor Swift's concerts aren't entertainment events - they're massive data collection operations where her choreographed movements create geometric patterns that activate dormant neural implants in audience members. The real purpose is to create a synchronized global consciousness network that can influence weather patterns through collective human biorhythms. Each song's tempo is precisely calculated to align with specific atmospheric frequencies.",
-
-    'paranormal-nonsense': "TOP SECRET BRIEFING: Bigfoot sightings aren't of a creature - they're glimpses of interdimensional park rangers who patrol the boundaries between our reality and the Forest Dimension. Every 'blurry photo' is actually their camouflage technology malfunctioning when exposed to certain camera frequencies, which is why the images are always unclear. These rangers are employed by the Intergalactic Parks and Recreation Department to prevent humans from accidentally wandering into parallel ecosystems.",
-
-    'government-filth': "CLASSIFIED OPERATION EXPOSED: Social media 'algorithms' aren't for engagement - they're actually sophisticated mood regulation systems designed to keep global emotional temperatures at precise levels to prevent mass awakening events. Each 'like' and 'share' sends biometric data to underground facilities where human emotional states are monitored and adjusted in real-time. The goal is to maintain humanity in a perpetual state of mild discontent - engaged enough to be productive, but never angry enough to revolt.",
-
-    'random': "INTERCEPTED TRANSMISSION: Coffee shops aren't businesses - they're data extraction points where the caffeine delivery system is used to make customers more receptive to subliminal programming transmitted through the specific frequencies of espresso machine steam wands. The 'third wave coffee movement' is actually a cover for upgrading the neural interface technology. Every coffee order is logged and cross-referenced with sleep patterns to optimize individual susceptibility to suggestion during morning commutes."
-  };
+    checkApiStatus();
+  }, []);
 
   useEffect(() => {
     if (isGenerating) {
@@ -331,45 +351,53 @@ const ConspiracyGenerator: React.FC<ConspiracyGeneratorProps> = ({
     setIsGenerating(true);
     setGenerationProgress(0);
     setCurrentTheory(null);
+    setError(null);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      const theory: ConspiracyTheory = {
-        id: `theory_${Date.now()}`,
-        content: mockTheories[selectedCategory] || mockTheories['random'],
+      // Generate and save theory using the new service
+      const theory = await theoryService.generateAndSaveTheory({
         category: selectedCategory,
-        createdAt: new Date(),
         classification: 'TOP SECRET'
-      };
+      });
       
       setCurrentTheory(theory);
       onTheoryGenerated?.(theory);
       
     } catch (error) {
       console.error('Failed to generate theory:', error);
+      setError(error instanceof Error ? error.message : 'Failed to generate theory. Please try again.');
     } finally {
       setIsGenerating(false);
       setGenerationProgress(0);
     }
   };
 
-  const handleShare = (platform: SharePlatform) => {
+  const handleShare = async (platform: SharePlatform) => {
     if (!currentTheory) return;
     
-    const text = encodeURIComponent(
-      `🕵️ CLASSIFIED LEAK: ${currentTheory.content.substring(0, 180)}... #ConspiracyTheory #Classified #DeepState`
-    );
-    const url = encodeURIComponent(window.location.href);
-    
-    const shareUrls = {
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`,
-      twitter: `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
-      reddit: `https://reddit.com/submit?url=${url}&title=${text}`
-    };
-    
-    window.open(shareUrls[platform], '_blank', 'width=600,height=400');
-    onTheoryShared?.(currentTheory, platform);
+    try {
+      // Track the share
+      if (currentTheory.id) {
+        await theoryService.trackShare(currentTheory.id, platform);
+      }
+      
+      const text = encodeURIComponent(
+        `🕵️ CLASSIFIED LEAK: ${currentTheory.content.substring(0, 180)}... #ConspiracyTheory #Classified #DeepState`
+      );
+      const url = encodeURIComponent(window.location.href);
+      
+      const shareUrls = {
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`,
+        twitter: `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+        reddit: `https://reddit.com/submit?url=${url}&title=${text}`
+      };
+      
+      window.open(shareUrls[platform], '_blank', 'width=600,height=400');
+      onTheoryShared?.(currentTheory, platform);
+    } catch (error) {
+      console.error('Error tracking share:', error);
+      // Continue with sharing even if tracking fails
+    }
   };
 
   const getSelectedCategoryInfo = () => {
@@ -378,6 +406,43 @@ const ConspiracyGenerator: React.FC<ConspiracyGeneratorProps> = ({
 
   return (
     <div className="space-y-8">
+      {/* API Status Indicator */}
+      <div className="border border-green-400/30 rounded-none p-4 bg-gray-900/50">
+        <div className="flex items-center justify-between">
+          <div className="text-green-400 font-mono text-sm font-bold">
+            SYSTEM STATUS
+          </div>
+          {apiStatus.checking && (
+            <div className="text-yellow-400 text-xs animate-pulse">
+              CHECKING...
+            </div>
+          )}
+        </div>
+        
+        <div className="mt-2 grid grid-cols-2 gap-4 text-xs font-mono">
+          <div className="flex items-center gap-2">
+            <div className={`w-2 h-2 rounded-full ${apiStatus.gemini ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`} />
+            <span className={apiStatus.gemini ? 'text-green-400' : 'text-red-400'}>
+              GEMINI_API: {apiStatus.gemini ? 'ONLINE' : 'OFFLINE'}
+            </span>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <div className={`w-2 h-2 rounded-full ${apiStatus.supabase ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`} />
+            <span className={apiStatus.supabase ? 'text-green-400' : 'text-red-400'}>
+              DATABASE: {apiStatus.supabase ? 'CONNECTED' : 'DISCONNECTED'}
+            </span>
+          </div>
+        </div>
+        
+        {(!apiStatus.gemini || !apiStatus.supabase) && !apiStatus.checking && (
+          <div className="mt-2 text-red-400/70 text-xs">
+            <AlertTriangle className="w-3 h-3 inline mr-1" />
+            Some services are unavailable. Check your API keys and configuration.
+          </div>
+        )}
+      </div>
+
       <div className="text-center mb-8">
         <div className="text-green-400 font-bold text-xl mb-2 tracking-wider font-mono">
           &gt; SELECT_INVESTIGATION_PROTOCOL
@@ -394,7 +459,7 @@ const ConspiracyGenerator: React.FC<ConspiracyGeneratorProps> = ({
             category={category}
             isSelected={selectedCategory === category.id}
             onSelect={() => setSelectedCategory(category.id)}
-            disabled={isGenerating}
+            disabled={isGenerating || !apiStatus.gemini || !apiStatus.supabase}
             animationDelay={index * 100}
           />
         ))}
@@ -413,10 +478,22 @@ const ConspiracyGenerator: React.FC<ConspiracyGeneratorProps> = ({
         </div>
       )}
 
+      {error && (
+        <div className="border border-red-400 bg-red-900/20 rounded-none p-4 mb-6">
+          <div className="flex items-center gap-2 text-red-400 font-mono text-sm">
+            <AlertTriangle className="w-4 h-4" />
+            OPERATION FAILED
+          </div>
+          <div className="text-red-300 text-xs mt-2 font-mono">
+            {error}
+          </div>
+        </div>
+      )}
+
       <div className="text-center mb-8">
         <button
           onClick={generateTheory}
-          disabled={!selectedCategory || isGenerating}
+          disabled={!selectedCategory || isGenerating || !apiStatus.gemini || !apiStatus.supabase}
           className={`
             relative px-8 py-4 font-bold border-2 rounded-none font-mono text-sm tracking-wider
             transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed
@@ -460,6 +537,7 @@ const ConspiracyGenerator: React.FC<ConspiracyGeneratorProps> = ({
             onShare={handleShare}
             onSave={() => {
               console.log('Saving theory:', currentTheory);
+              // Could implement favorite toggle here
             }}
           />
         </div>
