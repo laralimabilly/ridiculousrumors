@@ -19,7 +19,6 @@ const CATEGORY_PROMPTS = {
     - Maximum 50 words
     - Include scientific-sounding terms used incorrectly or absurdly
     - Be clearly humorous and fictional
-    - Start with a brief setup like "Scientists secretly know that..." or "The real reason for..."
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'historical-lies': `
@@ -30,7 +29,6 @@ const CATEGORY_PROMPTS = {
     - Maximum 50 words
     - Reference a real historical event or figure with an absurd explanation
     - Be clearly humorous and fictional
-    - Start with something like "The truth is..." or "What really happened was..."
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'celebrity-secrets': `
@@ -41,7 +39,6 @@ const CATEGORY_PROMPTS = {
     - Maximum 50 words
     - Reference real or archetypal celebrities with absurd secret activities
     - Be clearly humorous and fictional
-    - Start with something like "The real secret is..." or "What celebrities don't want you to know..."
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'paranormal-nonsense': `
@@ -52,7 +49,6 @@ const CATEGORY_PROMPTS = {
     - Maximum 50 words
     - Include paranormal elements (ghosts, aliens, cryptids, etc.) with mundane explanations
     - Be clearly humorous and fictional
-    - Start with something like "The truth about [paranormal thing]..." or "What they don't tell you..."
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'government-filth': `
@@ -63,7 +59,6 @@ const CATEGORY_PROMPTS = {
     - Maximum 50 words
     - Reference everyday government/public systems with absurd secret purposes
     - Be clearly humorous and fictional
-    - Start with something like "The government secretly uses..." or "The real purpose of..."
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'random': `
@@ -74,7 +69,6 @@ const CATEGORY_PROMPTS = {
     - Maximum 50 words
     - Combine completely unrelated concepts in an absurd but creative way
     - Be clearly humorous and fictional
-    - Start with something like "The secret connection between..." or "Nobody realizes that..."
     Generate only the conspiracy theory sentence, nothing else.
   `
 };
