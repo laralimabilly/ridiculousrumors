@@ -6,7 +6,11 @@ export interface AnalyticsEvent {
     value?: number;
     theory_id?: string;
     platform?: string;
-    custom_parameters?: Record<string, any>;
+    custom_parameters?: CustomParameters;
+  }
+
+  interface CustomParameters {
+    [key: string]: string | number | boolean | null | undefined;
   }
   
   export class Analytics {

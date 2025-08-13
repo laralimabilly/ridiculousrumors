@@ -111,7 +111,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         {/* Classification Banners */}
         <ClassificationBanner 
           level={classification}
-          additionalMarkings={['FICTIONAL', 'SATIRE', 'COMEDY']}
           position="top"
         />
         

@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { RefreshCw, FileText, Zap, Clock, User, Eye, Globe, MessageCircle, Share2, Copy, Check, Download, EyeOff, AlertTriangle, Wifi, ExternalLink } from 'lucide-react';
+import { RefreshCw, FileText, Zap, Clock, User, Eye, Globe, MessageCircle, Share2, Copy, Check, Download, EyeOff, AlertTriangle, ExternalLink } from 'lucide-react';
 import { theoryService } from '@/lib/theoryService';
 import { geminiService } from '@/lib/gemini';
 import { useRouter } from 'next/navigation';

@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Share2, Facebook, Twitter, MessageCircle, Link, Copy, Check } from 'lucide-react';
+import { Share2, Facebook, MessageCircle, Copy, Check } from 'lucide-react';
 import type { ConspiracyTheory, SharePlatform } from '@/types/conspiracy';
 
 interface DynamicShareProps {
@@ -135,7 +135,7 @@ const DynamicShare: React.FC<DynamicShareProps> = ({
               Ridiculous Rumors - Comedy Theory Generator
             </div>
             <div className="text-green-400/70 mb-2">
-              "{theory.content.substring(0, 120)}{theory.content.length > 120 ? '...' : ''}"
+              &quot;{theory.content.substring(0, 120)}{theory.content.length > 120 ? '...' : ''}&quot;
             </div>
             <div className="text-green-400/50 text-xs">
               ridiculousrumors.com • Fictional content for entertainment

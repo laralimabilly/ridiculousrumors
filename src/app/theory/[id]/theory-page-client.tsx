@@ -125,7 +125,7 @@ const TheoryPageClient: React.FC<TheoryPageClientProps> = ({ theory }) => {
             </div>
             
             <blockquote className="text-lg leading-relaxed text-center text-green-400 p-6 border-l-4 border-green-900/50 bg-green-900/5 italic">
-              "{theory.content}"
+              &quot;{theory.content}&quot;
             </blockquote>
             
             <div className="text-center mt-4 text-xs text-current/70">

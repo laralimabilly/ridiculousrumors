@@ -86,7 +86,7 @@ export function cn(...classes: (string | undefined | null | false)[]): string {
    * Simple localStorage utilities with SSR safety
    */
   export const storage = {
-    save: (key: string, data: any): void => {
+    save: <T>(key: string, data: T): void => {
       try {
         if (typeof window !== 'undefined') {
           window.localStorage.setItem(key, JSON.stringify(data));
@@ -96,11 +96,11 @@ export function cn(...classes: (string | undefined | null | false)[]): string {
       }
     },
     
-    load: (key: string): any => {
+    load: <T>(key: string): T | null => {
       try {
         if (typeof window !== 'undefined') {
           const item = window.localStorage.getItem(key);
-          return item ? JSON.parse(item) : null;
+          return item ? JSON.parse(item) as T : null;
         }
         return null;
       } catch (error) {

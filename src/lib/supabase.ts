@@ -14,6 +14,10 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export type EventType = 'generated' | 'shared' | 'saved' | 'copied' | 'viewed';
 export type Classification = 'TOP SECRET' | 'SECRET' | 'CONFIDENTIAL';
 
+export interface DatabaseMetadata {
+  [key: string]: string | number | boolean | null | undefined;
+}
+
 // Database types
 export interface Database {
   public: {
@@ -64,7 +68,7 @@ export interface Database {
           platform: string | null;
           created_at: string;
           user_id: string | null;
-          metadata: Record<string, any> | null;
+          metadata: DatabaseMetadata | null;
         };
         Insert: {
           id?: string;
@@ -73,7 +77,7 @@ export interface Database {
           platform?: string | null;
           created_at?: string;
           user_id?: string | null;
-          metadata?: Record<string, any> | null;
+          metadata?: DatabaseMetadata | null;
         };
         Update: {
           id?: string;
@@ -82,7 +86,7 @@ export interface Database {
           platform?: string | null;
           created_at?: string;
           user_id?: string | null;
-          metadata?: Record<string, any> | null;
+          metadata?: DatabaseMetadata | null;
         };
       };
     };

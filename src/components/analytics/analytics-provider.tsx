@@ -10,6 +10,15 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+// Define proper interfaces for type safety
+interface ErrorInfo {
+  componentStack: string;
+}
+
+interface PerformanceMeasureFn {
+  (): Promise<unknown>;
+}
+
 // Performance tracking
 export class PerformanceTracker {
   private startTimes: Map<string, number> = new Map();
@@ -34,7 +43,7 @@ export class PerformanceTracker {
     }
   }
 
-  measure(eventName: string, fn: () => Promise<any>, category: string = 'performance'): Promise<any> {
+  measure(eventName: string, fn: PerformanceMeasureFn, category: string = 'performance'): Promise<unknown> {
     this.start(eventName);
     return fn().finally(() => {
       this.end(eventName, category);
@@ -63,12 +72,12 @@ export class AnalyticsErrorBoundary extends React.Component<
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    analytics.trackError(error.message, errorInfo.componentStack ?? undefined);
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    analytics.trackError(error.message, errorInfo.componentStack);
     
     // Log to external error service if configured
-    if (typeof window !== 'undefined' && (window as any).Sentry) {
-      (window as any).Sentry.captureException(error);
+    if (typeof window !== 'undefined' && (window as unknown as { Sentry?: { captureException: (error: Error) => void } }).Sentry) {
+      (window as unknown as { Sentry: { captureException: (error: Error) => void } }).Sentry.captureException(error);
     }
   }
 

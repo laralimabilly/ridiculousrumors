@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Orbitron } from 'next/font/google';
+import Script from 'next/script';
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -231,27 +232,6 @@ export default function RootLayout({
         <meta name="color-scheme" content="dark" />
         <meta name="format-detection" content="telephone=no" />
         
-        {/* Google Tag Manager */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-PMVWTX73');
-            `,
-          }}
-        />
-        
-        {/* Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData),
-          }}
-        />
-
         {/* Google Ads */}
         <meta name="google-adsense-account" content="ca-pub-5777200462066598"></meta>
 
@@ -288,8 +268,24 @@ export default function RootLayout({
         {/* Copyright and disclaimer */}
         <meta name="copyright" content="© 2024 Ridiculous Rumors. All rights reserved." />
         <meta name="disclaimer" content="All generated content is fictional and for entertainment purposes only." />
+
+        {/* Google Tag Manager using next/script */}
+        <Script
+          id="google-tag-manager"
+          strategy="afterInteractive"
+        >
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-PMVWTX73');
+          `}
+        </Script>
+        
       </head>
       <body className={`${jetbrainsMono.variable} ${orbitron.variable}`}>
+        
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe 
@@ -299,6 +295,15 @@ export default function RootLayout({
             style={{display: 'none', visibility: 'hidden'}}
           />
         </noscript>
+        
+        {/* Structured Data */}
+        <Script
+          id="structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
         
         {children}
       </body>

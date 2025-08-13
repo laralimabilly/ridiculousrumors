@@ -1,5 +1,5 @@
 // src/lib/theoryService.ts (Updated with debugging)
-import { supabase, type ConspiracyTheoryInsert, type ConspiracyTheoryRow, type TheoryAnalyticsInsert } from './supabase';
+import { DatabaseMetadata, supabase, type ConspiracyTheoryInsert, type ConspiracyTheoryRow, type TheoryAnalyticsInsert } from './supabase';
 import { geminiService, type GenerateTheoryOptions } from './gemini';
 import { generateTheoryId } from './utils';
 import type { ConspiracyTheory, SharePlatform } from '@/types/conspiracy';
@@ -7,6 +7,16 @@ import type { ConspiracyTheory, SharePlatform } from '@/types/conspiracy';
 // Define allowed event types to match database constraint
 const ALLOWED_EVENT_TYPES = ['generated', 'shared', 'saved', 'copied', 'viewed'] as const;
 type AllowedEventType = typeof ALLOWED_EVENT_TYPES[number];
+
+interface TheoryAnalyticsData {
+  id: string;
+  theory_id: string;
+  event_type: string;
+  platform: string | null;
+  created_at: string;
+  user_id: string | null;
+  metadata: DatabaseMetadata | null;
+}
 
 export class TheoryService {
   // Generate and save a new theory
@@ -294,7 +304,7 @@ export class TheoryService {
   }
 
   // Get theory analytics
-  async getTheoryAnalytics(theoryId: string): Promise<any[]> {
+  async getTheoryAnalytics(theoryId: string): Promise<TheoryAnalyticsData[]> {
     try {
       const { data, error } = await supabase
         .from('theory_analytics')

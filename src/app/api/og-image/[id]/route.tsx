@@ -129,7 +129,7 @@ export async function GET(
                 textAlign: 'center',
               }}
             >
-              "{displayText}"
+              &quot;{displayText}&quot;
             </div>
 
             {/* Warning disclaimer */}
