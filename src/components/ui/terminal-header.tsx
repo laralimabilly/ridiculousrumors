@@ -57,7 +57,7 @@ const TerminalHeader: React.FC<TerminalHeaderProps> = ({
           </div>
           
           {showStatus && (
-            <>
+            <div className="flex items-center gap-4 lg:gap-6">
               <div className="flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-yellow-400" />
                 <span className="text-yellow-400">
@@ -78,7 +78,7 @@ const TerminalHeader: React.FC<TerminalHeaderProps> = ({
                   UP: {formatUptime(systemStatus.uptime)}
                 </span>
               </div>
-            </>
+            </div>
           )}
         </div>
 

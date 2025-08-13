@@ -2,14 +2,11 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import MainLayout from '@/components/layout/main-layout';
 import ConspiracyGenerator from '@/components/conspiracy/conspiracy-generator';
 import type { ConspiracyTheory, SharePlatform } from '@/types/conspiracy';
 
 export default function HomePage() {
-  const searchParams = useSearchParams();
-  const preSelectedCategory = searchParams.get('category');
 
   const handleTheoryGenerated = (theory: ConspiracyTheory) => {
     console.log('Theory generated:', theory);
@@ -45,7 +42,6 @@ export default function HomePage() {
       <ConspiracyGenerator 
         onTheoryGenerated={handleTheoryGenerated}
         onTheoryShared={handleTheoryShared}
-        preSelectedCategory={preSelectedCategory || undefined}
       />
     </MainLayout>
   );

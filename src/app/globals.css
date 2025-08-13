@@ -1,6 +1,5 @@
-/* app/globals.css */
+/* app/globals.css - Enhanced Mobile Responsiveness */
 @import 'tailwindcss';
-
 
 /* Root variables for consistent theming */
 :root {
@@ -14,7 +13,7 @@
   --grid-speed: 20s;
 }
 
-/* Base styles */
+/* Base styles with mobile-first approach */
 * {
   box-sizing: border-box;
 }
@@ -26,6 +25,9 @@ body {
   background-color: #000;
   color: var(--terminal-green);
   font-family: 'JetBrains Mono', 'Courier New', monospace;
+  /* Improve mobile text rendering */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 /* Remove default margins and paddings */
@@ -56,6 +58,12 @@ legend {
   width: 8px;
 }
 
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
 ::-webkit-scrollbar-track {
   background: #000;
   border: 1px solid var(--terminal-green);
@@ -76,7 +84,7 @@ html {
   scrollbar-color: var(--terminal-green) #000;
 }
 
-/* Custom animations */
+/* Mobile-optimized animations */
 @keyframes scan {
   0% {
     transform: translateX(-100%);
@@ -100,7 +108,18 @@ html {
     transform: translate(0, 0);
   }
   100% {
-    transform: translate(50px, 50px);
+    transform: translate(25px, 25px);
+  }
+}
+
+@media (max-width: 768px) {
+  @keyframes gridMove {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(15px, 15px);
+    }
   }
 }
 
@@ -116,7 +135,7 @@ html {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -124,10 +143,23 @@ html {
   }
 }
 
+@media (max-width: 768px) {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 @keyframes slideInFromLeft {
   from {
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateX(-30px);
   }
   to {
     opacity: 1;
@@ -135,14 +167,40 @@ html {
   }
 }
 
+@media (max-width: 768px) {
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
 @keyframes slideInFromRight {
   from {
     opacity: 0;
-    transform: translateX(50px);
+    transform: translateX(30px);
   }
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  @keyframes slideInFromRight {
+    from {
+      opacity: 0;
+      transform: translateX(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 }
 
@@ -151,19 +209,42 @@ html {
     transform: translate(0);
   }
   20% {
-    transform: translate(-2px, 2px);
+    transform: translate(-1px, 1px);
   }
   40% {
-    transform: translate(-2px, -2px);
+    transform: translate(-1px, -1px);
   }
   60% {
-    transform: translate(2px, 2px);
+    transform: translate(1px, 1px);
   }
   80% {
-    transform: translate(2px, -2px);
+    transform: translate(1px, -1px);
   }
   100% {
     transform: translate(0);
+  }
+}
+
+@media (max-width: 768px) {
+  @keyframes glitch {
+    0% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-0.5px, 0.5px);
+    }
+    40% {
+      transform: translate(-0.5px, -0.5px);
+    }
+    60% {
+      transform: translate(0.5px, 0.5px);
+    }
+    80% {
+      transform: translate(0.5px, -0.5px);
+    }
+    100% {
+      transform: translate(0);
+    }
   }
 }
 
@@ -218,21 +299,33 @@ html {
   animation: dataStream 2s ease-in-out infinite;
 }
 
-/* Terminal text effects */
+/* Terminal text effects - mobile optimized */
 .terminal-text {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+  .terminal-text {
+    letter-spacing: 0.02em;
+  }
 }
 
 .terminal-glow {
   text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
 }
 
+@media (max-width: 768px) {
+  .terminal-glow {
+    text-shadow: 0 0 3px currentColor, 0 0 6px currentColor;
+  }
+}
+
 .terminal-border {
   border-image: linear-gradient(45deg, var(--terminal-green), transparent) 1;
 }
 
-/* CRT Screen effects */
+/* CRT Screen effects - mobile optimized */
 .crt-screen {
   position: relative;
 }
@@ -256,6 +349,19 @@ html {
   z-index: 1000;
 }
 
+@media (max-width: 768px) {
+  .crt-screen::before {
+    background: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 1px,
+        rgba(34, 197, 94, 0.02) 1px,
+        rgba(34, 197, 94, 0.02) 2px
+      );
+  }
+}
+
 .crt-screen::after {
   content: '';
   position: absolute;
@@ -268,13 +374,34 @@ html {
   z-index: 999;
 }
 
-/* ASCII Art styling */
+/* ASCII Art styling - mobile responsive */
 .ascii-art {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 400;
   line-height: 1;
   white-space: pre;
-  overflow-x: auto;
+}
+
+@media (max-width: 1024px) {
+  .ascii-art {
+    font-size: 0.625rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .ascii-art {
+    font-size: 0.5rem;
+    line-height: 0.9;
+  }
+}
+
+@media (max-width: 480px) {
+  .ascii-art {
+    font-size: 0.375rem;
+    line-height: 0.8;
+    transform: scale(0.8);
+    transform-origin: center;
+  }
 }
 
 /* Redacted text effect */
@@ -295,7 +422,14 @@ html {
   white-space: nowrap;
 }
 
-/* Button styles */
+@media (max-width: 768px) {
+  .redacted::after {
+    margin-left: 5px;
+    font-size: 0.7em;
+  }
+}
+
+/* Button styles - mobile optimized */
 .terminal-button {
   font-family: 'JetBrains Mono', monospace;
   border: 2px solid;
@@ -305,15 +439,36 @@ html {
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  min-height: 44px; /* Minimum touch target */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .terminal-button {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    min-height: 48px; /* Larger touch target on mobile */
+  }
 }
 
 .terminal-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px currentColor;
+  transform: scale(1.02);
+  box-shadow: 0 0 15px currentColor;
+}
+
+@media (max-width: 768px) {
+  .terminal-button:hover {
+    transform: none; /* Disable hover transform on mobile */
+    box-shadow: 0 0 10px currentColor;
+  }
 }
 
 .terminal-button:active {
-  transform: scale(0.95);
+  transform: scale(0.98);
 }
 
 .terminal-button:disabled {
@@ -330,6 +485,12 @@ html {
   border: 1px solid var(--terminal-green);
   position: relative;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .progress-bar {
+    height: 3px;
+  }
 }
 
 .progress-bar::after {
@@ -351,6 +512,13 @@ html {
   opacity: 0.7;
 }
 
+@media (max-width: 768px) {
+  .data-stream {
+    font-size: 0.7rem;
+    line-height: 1.1;
+  }
+}
+
 .data-stream span {
   display: inline-block;
   animation: dataStream 2s ease-in-out infinite;
@@ -364,35 +532,105 @@ html {
   animation-delay: 0.2s;
 }
 
-/* Responsive typography */
+/* Mobile-specific optimizations */
 @media (max-width: 768px) {
-  .ascii-art {
-    font-size: 0.6rem;
+  /* Improve touch interactions */
+  button, 
+  [role="button"], 
+  input[type="submit"], 
+  input[type="button"] {
+    min-height: 44px;
+    min-width: 44px;
   }
   
-  .terminal-text {
-    font-size: 0.875rem;
+  /* Better spacing for mobile */
+  .space-y-8 > * + * {
+    margin-top: 1.5rem;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 1rem;
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: 0.75rem;
+  }
+  
+  /* Improve grid layouts on mobile */
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  .xl\:grid-cols-3 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  /* Better padding for mobile */
+  .p-6 {
+    padding: 1rem;
+  }
+  
+  .p-4 {
+    padding: 0.75rem;
+  }
+  
+  .px-8 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .py-8 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .ascii-art {
-    font-size: 0.5rem;
+  /* Extra small devices */
+  .text-3xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
   
-  .terminal-text {
-    font-size: 0.8rem;
+  .text-2xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
-}
-
-/* Print styles */
-@media print {
-  .crt-screen::before,
-  .crt-screen::after,
-  .animate-scan,
-  .animate-blink,
-  .animate-flicker {
-    display: none !important;
+  
+  .text-xl {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  
+  .text-lg {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  
+  /* Smaller gaps */
+  .gap-6 {
+    gap: 1rem;
+  }
+  
+  .gap-4 {
+    gap: 0.75rem;
+  }
+  
+  .gap-3 {
+    gap: 0.5rem;
+  }
+  
+  /* Better padding for very small screens */
+  .p-6 {
+    padding: 0.75rem;
+  }
+  
+  .p-4 {
+    padding: 0.5rem;
   }
 }
 
@@ -417,5 +655,69 @@ html {
   
   .terminal-button:hover {
     transform: none;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .crt-screen::before,
+  .crt-screen::after,
+  .animate-scan,
+  .animate-blink,
+  .animate-flicker {
+    display: none !important;
+  }
+}
+
+/* Landscape orientation optimizations for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .ascii-art {
+    font-size: 0.625rem;
+  }
+  
+  .py-8 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  /* Reduce header height in landscape */
+  .pt-12 {
+    padding-top: 2rem;
+  }
+}
+
+/* Focus styles for accessibility */
+button:focus,
+[role="button"]:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--terminal-green);
+  outline-offset: 2px;
+}
+
+/* Safe area insets for devices with notches */
+@supports (padding: env(safe-area-inset-top)) {
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
   }
 }

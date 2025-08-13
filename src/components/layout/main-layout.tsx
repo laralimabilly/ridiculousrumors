@@ -51,7 +51,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       <div className="min-h-screen bg-black text-green-400 flex items-center justify-center font-mono">
         <div className="text-center max-w-2xl">
           {/* ASCII Art Boot Logo */}
-          <pre className="text-green-400 text-xs mb-8 leading-tight">
+          <pre className="text-green-400 text-xs md:text-sm font-mono leading-tight ascii-art">
 {`
 ██████╗ ██╗██████╗ ██╗ ██████╗██╗   ██╗██╗      ██████╗ ██╗   ██╗███████╗
 ██╔══██╗██║██╔══██╗██║██╔════╝██║   ██║██║     ██╔═══██╗██║   ██║██╔════╝
@@ -123,7 +123,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         
         {/* ASCII Art Title */}
         <div className="text-center py-8 border-b border-green-400/30">
-          <pre className="text-green-400 text-xs md:text-sm font-mono leading-tight">
+          <pre className="text-green-400 text-xs md:text-sm font-mono leading-tight ascii-art">
 {`
 ██████╗ ██╗██████╗ ██╗ ██████╗██╗   ██╗██╗      ██████╗ ██╗   ██╗███████╗
 ██╔══██╗██║██╔══██╗██║██╔════╝██║   ██║██║     ██╔═══██╗██║   ██║██╔════╝
