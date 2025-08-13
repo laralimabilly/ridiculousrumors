@@ -18,6 +18,26 @@ interface TheoryAnalyticsData {
   metadata: DatabaseMetadata | null;
 }
 
+export interface CategoryStat {
+  category: string;
+  count: number;
+  latest: Date;
+}
+
+export interface SitemapData {
+  url: string;
+  lastModified: Date;
+  changeFrequency: 'daily' | 'weekly' | 'monthly';
+  priority: number;
+}
+
+export interface TheoryStats {
+  views: number;
+  shares: number;
+  copies: number;
+  favorites: number;
+}
+
 export class TheoryService {
   // Generate and save a new theory
   async generateAndSaveTheory(options: GenerateTheoryOptions): Promise<ConspiracyTheory> {
@@ -172,12 +192,7 @@ export class TheoryService {
   }
 
   // Get theory statistics
-  async getTheoryStats(theoryId: string): Promise<{
-    views: number;
-    shares: number;
-    copies: number;
-    favorites: number;
-  }> {
+  async getTheoryStats(theoryId: string): Promise<TheoryStats> {
     try {
       const { data, error } = await supabase
         .from('theory_analytics')
@@ -347,12 +362,7 @@ export class TheoryService {
   }
 
   // Generate sitemap data
-  async getSitemapData(): Promise<Array<{
-    url: string;
-    lastModified: Date;
-    changeFrequency: 'daily' | 'weekly' | 'monthly';
-    priority: number;
-  }>> {
+  async getSitemapData(): Promise<SitemapData[]> {
     try {
       const { data, error } = await supabase
         .from('conspiracy_theories')
@@ -405,11 +415,7 @@ export class TheoryService {
   }
 
   // Get category statistics
-  async getCategoryStats(): Promise<Array<{
-    category: string;
-    count: number;
-    latest: Date;
-  }>> {
+  async getCategoryStats(): Promise<CategoryStat[]> {
     try {
       const { data, error } = await supabase
         .from('conspiracy_theories')

@@ -266,11 +266,13 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({ theory, onShare, onSave }
 interface ConspiracyGeneratorProps {
   onTheoryGenerated?: (theory: ConspiracyTheory) => void;
   onTheoryShared?: (theory: ConspiracyTheory, platform: SharePlatform) => void;
+  preSelectedCategory?: string;
 }
 
 const ConspiracyGenerator: React.FC<ConspiracyGeneratorProps> = ({
   onTheoryGenerated,
-  onTheoryShared
+  onTheoryShared,
+  preSelectedCategory
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [currentTheory, setCurrentTheory] = useState<ConspiracyTheory | null>(null);
@@ -370,6 +372,15 @@ const ConspiracyGenerator: React.FC<ConspiracyGeneratorProps> = ({
       return () => clearInterval(progressInterval);
     }
   }, [isGenerating]);
+
+  useEffect(() => {
+    if (preSelectedCategory) {
+      const validCategories = categories.map(cat => cat.id);
+      if (validCategories.includes(preSelectedCategory)) {
+        setSelectedCategory(preSelectedCategory);
+      }
+    }
+  }, [preSelectedCategory]);
 
   const generateTheory = async () => {
     if (!selectedCategory || isGenerating) return;

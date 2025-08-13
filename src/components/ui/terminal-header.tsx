@@ -47,7 +47,7 @@ const TerminalHeader: React.FC<TerminalHeaderProps> = ({
   };
 
   return (
-    <div className="bg-black border-b-2 border-green-400 p-4 font-mono text-xs">
+    <div className="bg-black border-b-2 border-green-400 p-4 pr-24 pt-12 font-mono text-xs">
       <div className="flex justify-between items-center flex-wrap gap-4">
         {/* Left Side - System Status */}
         <div className="flex items-center gap-6 flex-wrap">

@@ -7,6 +7,7 @@ import ClassificationBanner from '@/components/ui/classification-banner';
 import ScanLine from '@/components/ui/scan-line';
 import CRTScreen from '@/components/ui/crt-screen';
 import TelemetryDisplay from '@/components/ui/telemetry-display';
+import MainNavigation from '../navigation/main-navigation';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -116,6 +117,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         
         {/* Terminal Header */}
         <TerminalHeader systemName={systemName} />
+
+        {/* Main Navigation */}
+        <MainNavigation />
         
         {/* ASCII Art Title */}
         <div className="text-center py-8 border-b border-green-400/30">

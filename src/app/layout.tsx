@@ -241,12 +241,6 @@ export default function RootLayout({
         {/* Preconnect for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
-        {/* Additional OpenGraph tags for better sharing */}
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/png" />
-        <meta property="og:updated_time" content={new Date().toISOString()} />
         
         {/* Twitter Card additional tags */}
         <meta name="twitter:image:width" content="1200" />
