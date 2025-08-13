@@ -12,64 +12,64 @@ const genAI = new GoogleGenerativeAI(apiKey);
 // Category-specific prompts for short, humorous conspiracy theories
 const CATEGORY_PROMPTS = {
   'absurd-science': `
-    Generate a single-sentence humorous conspiracy theory about absurd science.
+    Generate a single-sentence nonsense humorous conspiracy theory about absurd science.
     Examples: "WiFi routers are actually quantum flux generators that turn thoughts into bandwidth." or "Scientists discovered gravity is just really persistent peer pressure from the Earth."
     Requirements:
     - EXACTLY one sentence
     - Maximum 50 words
     - Include scientific-sounding terms used incorrectly or absurdly
-    - Be clearly humorous and fictional
+    - Be clearly fictional, inconvenient, with acid humor
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'historical-lies': `
-    Generate a single-sentence humorous conspiracy theory about historical events.
+    Generate a single-sentence nonsense humorous conspiracy theory about historical events.
     Examples: "The Titanic actually sank because it was carrying too many time travelers from 2024." or "Napoleon was short because he kept shrinking every time he invaded a country."
     Requirements:
     - EXACTLY one sentence
     - Maximum 50 words
     - Reference a real historical event or figure with an absurd explanation
-    - Be clearly humorous and fictional
+    - Be clearly fictional, inconvenient, with acid humor
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'celebrity-secrets': `
-    Generate a single-sentence humorous conspiracy theory about celebrities.
+    Generate a single-sentence nonsense humorous conspiracy theory about celebrities.
     Examples: "Taylor Swift's concert tours are actually sophisticated weather control experiments." or "Gordon Ramsay only gets angry because he can hear what the food is thinking."
     Requirements:
     - EXACTLY one sentence
     - Maximum 50 words
     - Reference real or archetypal celebrities with absurd secret activities
-    - Be clearly humorous and fictional
+    - Be clearly fictional, inconvenient, with acid humor
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'paranormal-nonsense': `
-    Generate a single-sentence humorous conspiracy theory about paranormal phenomena.
+    Generate a single-sentence nonsense humorous conspiracy theory about paranormal phenomena.
     Examples: "Bigfoot sightings are just really hairy park rangers who forgot to shave during camping season." or "UFOs are actually interdimensional food trucks that only serve snacks to confused humans."
     Requirements:
     - EXACTLY one sentence
     - Maximum 50 words
     - Include paranormal elements (ghosts, aliens, cryptids, etc.) with mundane explanations
-    - Be clearly humorous and fictional
+    - Be clearly fictional, inconvenient, with acid humor
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'government-filth': `
-    Generate a single-sentence humorous conspiracy theory about government activities.
-    Examples: "The DMV is actually a time-dilation experiment to test human patience limits." or "Traffic lights are synchronized by a secret AI that feeds on road rage."
+    Generate a single-sentence nonsense humorous conspiracy theory about government activities.
+    Examples: "Former President Barack Obama’s secret service codename, “Renegade,” is actually a legal classification for his clandestine second career as an interdimensional squirrel whisperer." or "Traffic lights are synchronized by a secret AI that feeds on road rage."
     Requirements:
     - EXACTLY one sentence
     - Maximum 50 words
-    - Reference everyday government/public systems with absurd secret purposes
-    - Be clearly humorous and fictional
+    - Reference a real politician scandal or government systems with absurd secret purposes
+    - Be clearly fictional, inconvenient, with acid humor
     - Do not repeat yourself
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'random': `
-    Generate a single-sentence humorous conspiracy theory combining random elements.
+    Generate a single-sentence nonsense humorous conspiracy theory combining random elements.
     Examples: "Coffee shops are actually data extraction points where baristas harvest dreams through steam wand frequencies." or "Rubber ducks control the global economy through strategic squeaking patterns."
     Requirements:
     - EXACTLY one sentence
     - Maximum 50 words
     - Combine completely unrelated concepts in an absurd but creative way
-    - Be clearly humorous and fictional
+    - Be clearly fictional, inconvenient, with acid humor
     Generate only the conspiracy theory sentence, nothing else.
   `
 };

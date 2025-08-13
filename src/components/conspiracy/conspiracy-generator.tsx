@@ -217,10 +217,9 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({ theory, onShare, onSave }
               SAVE_TO_ARCHIVE
             </button>
           )}
-        </div>
-
-        {/* View Full Theory Button */}
-        {theory.id && (
+          
+          {/* View Full Theory Button */}
+          {theory.id && (
             <button
               onClick={() => router.push(`/theory/${theory.id}`)}
               className="flex items-center gap-2 px-4 py-2 border-2 border-green-400 bg-green-900/20 text-green-400 hover:bg-green-900/40 transition-colors rounded-none text-xs font-bold"
@@ -229,6 +228,8 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({ theory, onShare, onSave }
               VIEW_FULL_REPORT
             </button>
           )}
+        </div>
+
 
         <div>
           <div className="font-bold mb-4 flex items-center gap-2 text-sm">
