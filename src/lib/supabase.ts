@@ -10,6 +10,10 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// Define allowed event types to match database constraint
+export type EventType = 'generated' | 'shared' | 'saved' | 'copied' | 'viewed';
+export type Classification = 'TOP SECRET' | 'SECRET' | 'CONFIDENTIAL';
+
 // Database types
 export interface Database {
   public: {
@@ -19,7 +23,7 @@ export interface Database {
           id: string;
           content: string;
           category: string;
-          classification: 'TOP SECRET' | 'SECRET' | 'CONFIDENTIAL';
+          classification: Classification;
           created_at: string;
           updated_at: string;
           prompt_used: string | null;
@@ -31,7 +35,7 @@ export interface Database {
           id?: string;
           content: string;
           category: string;
-          classification?: 'TOP SECRET' | 'SECRET' | 'CONFIDENTIAL';
+          classification?: Classification;
           created_at?: string;
           updated_at?: string;
           prompt_used?: string | null;
@@ -43,7 +47,7 @@ export interface Database {
           id?: string;
           content?: string;
           category?: string;
-          classification?: 'TOP SECRET' | 'SECRET' | 'CONFIDENTIAL';
+          classification?: Classification;
           created_at?: string;
           updated_at?: string;
           prompt_used?: string | null;
@@ -56,7 +60,7 @@ export interface Database {
         Row: {
           id: string;
           theory_id: string;
-          event_type: 'generated' | 'shared' | 'saved' | 'copied' | 'viewed';
+          event_type: EventType;
           platform: string | null;
           created_at: string;
           user_id: string | null;
@@ -65,7 +69,7 @@ export interface Database {
         Insert: {
           id?: string;
           theory_id: string;
-          event_type: 'generated' | 'shared' | 'saved' | 'copied' | 'viewed';
+          event_type: EventType;
           platform?: string | null;
           created_at?: string;
           user_id?: string | null;
@@ -74,7 +78,7 @@ export interface Database {
         Update: {
           id?: string;
           theory_id?: string;
-          event_type?: 'generated' | 'shared' | 'saved' | 'copied' | 'viewed';
+          event_type?: EventType;
           platform?: string | null;
           created_at?: string;
           user_id?: string | null;
@@ -88,3 +92,4 @@ export interface Database {
 export type ConspiracyTheoryRow = Database['public']['Tables']['conspiracy_theories']['Row'];
 export type ConspiracyTheoryInsert = Database['public']['Tables']['conspiracy_theories']['Insert'];
 export type TheoryAnalyticsInsert = Database['public']['Tables']['theory_analytics']['Insert'];
+export type TheoryAnalyticsRow = Database['public']['Tables']['theory_analytics']['Row'];

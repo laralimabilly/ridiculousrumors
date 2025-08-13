@@ -6,16 +6,17 @@ import { theoryService } from '@/lib/theoryService';
 import type { ConspiracyTheory } from '@/types/conspiracy';
 
 interface TheoryPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 // Generate metadata for each theory page
 export async function generateMetadata({ params }: TheoryPageProps): Promise<Metadata> {
+  const { id } = await params; // Await params before using
   let theory: ConspiracyTheory | null = null;
   
   try {
-    // Fetch theory data (you'll need to implement getTheoryById in your service)
-    theory = await theoryService.getTheoryById(params.id);
+    // Fetch theory data
+    theory = await theoryService.getTheoryById(id);
   } catch (error) {
     console.error('Error fetching theory for metadata:', error);
   }
@@ -53,7 +54,7 @@ export async function generateMetadata({ params }: TheoryPageProps): Promise<Met
       type: 'article',
       title: pageTitle,
       description: pageDescription,
-      url: `https://ridiculousrumors.com/theory/${params.id}`,
+      url: `/theory/${id}`, // Use relative URL with metadataBase
       siteName: 'Ridiculous Rumors',
       publishedTime: theory.createdAt.toISOString(),
       modifiedTime: theory.createdAt.toISOString(),
@@ -61,7 +62,7 @@ export async function generateMetadata({ params }: TheoryPageProps): Promise<Met
       tags: ['Comedy', 'Satire', 'Fictional', theory.category],
       images: [
         {
-          url: `/api/og-image/${params.id}`, // Dynamic OG image
+          url: `/api/og-image/${id}`, // Dynamic OG image - relative URL
           width: 1200,
           height: 630,
           alt: `Ridiculous Rumors Theory: ${theory.content.substring(0, 100)}`,
@@ -84,7 +85,7 @@ export async function generateMetadata({ params }: TheoryPageProps): Promise<Met
       site: '@RidiculousRumors',
       creator: '@RidiculousRumors',
       images: {
-        url: `/api/og-image/${params.id}`,
+        url: `/api/og-image/${id}`, // Relative URL
         alt: `Comedy Theory: ${theory.content.substring(0, 100)}`,
       },
     },
@@ -102,17 +103,18 @@ export async function generateMetadata({ params }: TheoryPageProps): Promise<Met
     },
 
     alternates: {
-      canonical: `https://ridiculousrumors.com/theory/${params.id}`,
+      canonical: `/theory/${id}`, // Use relative URL
     },
   };
 }
 
 // Main page component
 export default async function TheoryPage({ params }: TheoryPageProps) {
+  const { id } = await params; // Await params before using
   let theory: ConspiracyTheory | null = null;
   
   try {
-    theory = await theoryService.getTheoryById(params.id);
+    theory = await theoryService.getTheoryById(id);
   } catch (error) {
     console.error('Error fetching theory:', error);
     notFound();
@@ -128,20 +130,20 @@ export default async function TheoryPage({ params }: TheoryPageProps) {
     "@type": "Article",
     "headline": `Fictional Theory: ${theory.content.substring(0, 100)}`,
     "description": `Comedy conspiracy theory: ${theory.content}`,
-    "image": [`https://ridiculousrumors.com/api/og-image/${params.id}`],
+    "image": [`/api/og-image/${id}`], // Use relative URL
     "datePublished": theory.createdAt.toISOString(),
     "dateModified": theory.createdAt.toISOString(),
     "author": {
       "@type": "Organization",
       "name": "Ridiculous Rumors AI",
-      "url": "https://ridiculousrumors.com"
+      "url": "/"
     },
     "publisher": {
       "@type": "Organization",
       "name": "Ridiculous Rumors",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://ridiculousrumors.com/logo.png"
+        "url": "/logo.png"
       }
     },
     "articleSection": "Entertainment",
@@ -167,11 +169,11 @@ export default async function TheoryPage({ params }: TheoryPageProps) {
     "isPartOf": {
       "@type": "WebSite",
       "name": "Ridiculous Rumors",
-      "url": "https://ridiculousrumors.com"
+      "url": "/"
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://ridiculousrumors.com/theory/${params.id}`
+      "@id": `/theory/${id}` // Use relative URL
     }
   };
 

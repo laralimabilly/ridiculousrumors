@@ -1,6 +1,7 @@
-// Analytics component for automatic page tracking
+// src/components/analytics/analytics-provider.tsx
 'use client';
   
+import React from 'react';
 import { analytics, useAnalytics } from '@/lib/analytics';
 
 export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
@@ -44,8 +45,6 @@ export class PerformanceTracker {
 export const performanceTracker = new PerformanceTracker();
 
 // Error boundary with analytics
-import React from 'react';
-
 interface ErrorBoundaryState {
   hasError: boolean;
   error?: Error;

@@ -7,15 +7,15 @@ export const runtime = 'edge';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const theoryId = params.id;
+    const { id } = await params; // Await params before using
     
     // Fetch theory data
     let theory;
     try {
-      theory = await theoryService.getTheoryById(theoryId);
+      theory = await theoryService.getTheoryById(id);
     } catch (error) {
       console.error('Error fetching theory for OG image:', error);
       return new Response('Theory not found', { status: 404 });
@@ -49,7 +49,7 @@ export async function GET(
               radial-gradient(circle at 75px 75px, #22c55e 2px, transparent 0)
             `,
             backgroundSize: '100px 100px',
-            backgroundOpacity: '0.1',
+            opacity: '0.1',
             fontFamily: 'monospace',
             color: '#22c55e',
             position: 'relative',

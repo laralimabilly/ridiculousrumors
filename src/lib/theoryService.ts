@@ -1,8 +1,12 @@
-// src/lib/theoryService.ts (Enhanced Version)
+// src/lib/theoryService.ts (Updated with debugging)
 import { supabase, type ConspiracyTheoryInsert, type ConspiracyTheoryRow, type TheoryAnalyticsInsert } from './supabase';
 import { geminiService, type GenerateTheoryOptions } from './gemini';
 import { generateTheoryId } from './utils';
 import type { ConspiracyTheory, SharePlatform } from '@/types/conspiracy';
+
+// Define allowed event types to match database constraint
+const ALLOWED_EVENT_TYPES = ['generated', 'shared', 'saved', 'copied', 'viewed'] as const;
+type AllowedEventType = typeof ALLOWED_EVENT_TYPES[number];
 
 export class TheoryService {
   // Generate and save a new theory
@@ -36,10 +40,10 @@ export class TheoryService {
         throw new Error(`Failed to save theory: ${error.message}`);
       }
 
-      // Log analytics
+      // Log analytics with proper event type
       await this.logAnalytics({
         theory_id: data.id,
-        event_type: 'generated',
+        event_type: 'generated', // Ensure this matches constraint
         metadata: {
           category: options.category,
           classification: options.classification,
@@ -73,10 +77,10 @@ export class TheoryService {
         throw new Error(`Failed to fetch theory: ${error.message}`);
       }
 
-      // Log view analytics
+      // Log view analytics with proper event type
       await this.logAnalytics({
         theory_id: id,
-        event_type: 'viewed',
+        event_type: 'viewed', // Ensure this matches constraint
         metadata: {
           viewed_at: new Date().toISOString()
         }
@@ -229,10 +233,10 @@ export class TheoryService {
         throw new Error(`Failed to update favorite: ${updateError.message}`);
       }
 
-      // Log analytics
+      // Log analytics with proper event type
       await this.logAnalytics({
         theory_id: theoryId,
-        event_type: 'saved',
+        event_type: 'saved', // Ensure this matches constraint
         metadata: {
           is_favorite: newFavoriteStatus,
           action: newFavoriteStatus ? 'favorited' : 'unfavorited'
@@ -257,10 +261,10 @@ export class TheoryService {
         console.error('Error incrementing share count:', updateError);
       }
 
-      // Log analytics
+      // Log analytics with proper event type
       await this.logAnalytics({
         theory_id: theoryId,
-        event_type: 'shared',
+        event_type: 'shared', // Ensure this matches constraint
         platform: platform,
         metadata: {
           shared_at: new Date().toISOString(),
@@ -278,7 +282,7 @@ export class TheoryService {
     try {
       await this.logAnalytics({
         theory_id: theoryId,
-        event_type: 'copied',
+        event_type: 'copied', // Ensure this matches constraint
         metadata: {
           copied_at: new Date().toISOString()
         }
@@ -435,8 +439,17 @@ export class TheoryService {
   }
 
   // Private helper methods
-  private async logAnalytics(analyticsData: TheoryAnalyticsInsert): Promise<void> {
+  private async logAnalytics(analyticsData: Omit<TheoryAnalyticsInsert, 'created_at'>): Promise<void> {
     try {
+      // Validate event type before inserting
+      const eventType = analyticsData.event_type;
+      if (!ALLOWED_EVENT_TYPES.includes(eventType as AllowedEventType)) {
+        console.error(`Invalid event type: ${eventType}. Allowed types:`, ALLOWED_EVENT_TYPES);
+        return;
+      }
+
+      console.log('Logging analytics with event type:', eventType); // Debug log
+
       const { error } = await supabase
         .from('theory_analytics')
         .insert([{
@@ -446,6 +459,9 @@ export class TheoryService {
 
       if (error) {
         console.error('Error logging analytics:', error);
+        console.error('Analytics data attempted:', analyticsData); // Debug log
+      } else {
+        console.log('Analytics logged successfully for event:', eventType); // Debug log
       }
     } catch (error) {
       console.error('Error in logAnalytics:', error);
@@ -474,6 +490,23 @@ export class TheoryService {
     } catch (error) {
       console.error('Database connection test failed:', error);
       return false;
+    }
+  }
+
+  // Debug method to check current constraints
+  async checkDatabaseConstraints(): Promise<void> {
+    try {
+      // Try to query the constraints from the database
+      const { data, error } = await supabase
+        .rpc('check_constraint_values');
+
+      if (error) {
+        console.error('Could not check constraints:', error);
+      } else {
+        console.log('Database constraints:', data);
+      }
+    } catch (error) {
+      console.error('Error checking constraints:', error);
     }
   }
 }

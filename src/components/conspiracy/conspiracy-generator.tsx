@@ -2,9 +2,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { RefreshCw, FileText, Zap, Clock, User, Eye, Globe, MessageCircle, Share2, Copy, Check, Download, EyeOff, AlertTriangle, Wifi } from 'lucide-react';
+import { RefreshCw, FileText, Zap, Clock, User, Eye, Globe, MessageCircle, Share2, Copy, Check, Download, EyeOff, AlertTriangle, Wifi, ExternalLink } from 'lucide-react';
 import { theoryService } from '@/lib/theoryService';
 import { geminiService } from '@/lib/gemini';
+import { useRouter } from 'next/navigation';
 import type { ConspiracyTheory, SharePlatform } from '@/types/conspiracy';
 
 // TypeScript interfaces inline
@@ -102,6 +103,7 @@ interface TheoryDisplayProps {
 const TheoryDisplay: React.FC<TheoryDisplayProps> = ({ theory, onShare, onSave }) => {
   const [copied, setCopied] = useState(false);
   const [isRedacted, setIsRedacted] = useState(false);
+  const router = useRouter();
 
   const handleCopyToClipboard = async () => {
     try {
@@ -216,6 +218,17 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({ theory, onShare, onSave }
             </button>
           )}
         </div>
+
+        {/* View Full Theory Button */}
+        {theory.id && (
+            <button
+              onClick={() => router.push(`/theory/${theory.id}`)}
+              className="flex items-center gap-2 px-4 py-2 border-2 border-green-400 bg-green-900/20 text-green-400 hover:bg-green-900/40 transition-colors rounded-none text-xs font-bold"
+            >
+              <ExternalLink className="w-3 h-3" />
+              VIEW_FULL_REPORT
+            </button>
+          )}
 
         <div>
           <div className="font-bold mb-4 flex items-center gap-2 text-sm">

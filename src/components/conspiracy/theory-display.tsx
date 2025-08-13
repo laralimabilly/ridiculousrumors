@@ -2,8 +2,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Share2, Facebook, MessageCircle, Copy, Check, Download, Eye, EyeOff, AlertTriangle } from 'lucide-react';
+import { Share2, Facebook, MessageCircle, Copy, Check, Download, Eye, EyeOff, AlertTriangle, ExternalLink } from 'lucide-react';
 import { clsx } from 'clsx';
+import { useRouter } from 'next/navigation';
 import type { ConspiracyTheory, SharePlatform } from '@/types/conspiracy';
 
 interface TheoryDisplayProps {
@@ -21,6 +22,7 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
   const [isRedacted, setIsRedacted] = useState(false);
+  const router = useRouter();
 
   const handleCopyToClipboard = async () => {
     try {
@@ -148,23 +150,36 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({
 
       {/* Action Buttons */}
       <div className="border-t border-current/30 pt-4 space-y-4">
-        {/* Copy and Save */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={handleCopyToClipboard}
-            className="flex items-center gap-2 px-4 py-2 border border-current rounded-none text-xs hover:bg-current hover:text-black transition-colors"
-          >
-            {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-            {copied ? 'COPIED_WITH_DISCLAIMER!' : 'COPY_WITH_DISCLAIMER'}
-          </button>
-          
-          {onSave && (
+        {/* Copy, Save, and View Full Theory */}
+        <div className="flex flex-wrap justify-between items-center gap-2">
+          <div className="flex gap-2">
             <button
-              onClick={onSave}
+              onClick={handleCopyToClipboard}
               className="flex items-center gap-2 px-4 py-2 border border-current rounded-none text-xs hover:bg-current hover:text-black transition-colors"
             >
-              <Download className="w-3 h-3" />
-              SAVE_COMEDY_GOLD
+              {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+              {copied ? 'COPIED_WITH_DISCLAIMER!' : 'COPY_WITH_DISCLAIMER'}
+            </button>
+            
+            {onSave && (
+              <button
+                onClick={onSave}
+                className="flex items-center gap-2 px-4 py-2 border border-current rounded-none text-xs hover:bg-current hover:text-black transition-colors"
+              >
+                <Download className="w-3 h-3" />
+                SAVE_COMEDY_GOLD
+              </button>
+            )}
+          </div>
+
+          {/* View Full Theory Button */}
+          {theory.id && (
+            <button
+              onClick={() => router.push(`/theory/${theory.id}`)}
+              className="flex items-center gap-2 px-4 py-2 border-2 border-green-400 bg-green-900/20 text-green-400 hover:bg-green-900/40 transition-colors rounded-none text-xs font-bold"
+            >
+              <ExternalLink className="w-3 h-3" />
+              VIEW_FULL_REPORT
             </button>
           )}
         </div>
