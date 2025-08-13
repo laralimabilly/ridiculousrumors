@@ -247,6 +247,9 @@ export default function RootLayout({
           }}
         />
 
+        {/* Google Ads */}
+        <meta name="google-adsense-account" content="ca-pub-5777200462066598"></meta>
+
         {/* Canonical URL */}
         <link rel="canonical" href="https://ridiculousrumors.com" />
 
