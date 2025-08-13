@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ridiculousrumors.com/sitemap.xml

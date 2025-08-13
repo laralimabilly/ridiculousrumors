@@ -56,7 +56,7 @@ export interface Database {
         Row: {
           id: string;
           theory_id: string;
-          event_type: 'generated' | 'shared' | 'saved' | 'copied';
+          event_type: 'generated' | 'shared' | 'saved' | 'copied' | 'viewed';
           platform: string | null;
           created_at: string;
           user_id: string | null;
@@ -65,7 +65,7 @@ export interface Database {
         Insert: {
           id?: string;
           theory_id: string;
-          event_type: 'generated' | 'shared' | 'saved' | 'copied';
+          event_type: 'generated' | 'shared' | 'saved' | 'copied' | 'viewed';
           platform?: string | null;
           created_at?: string;
           user_id?: string | null;
@@ -74,7 +74,7 @@ export interface Database {
         Update: {
           id?: string;
           theory_id?: string;
-          event_type?: 'generated' | 'shared' | 'saved' | 'copied';
+          event_type?: 'generated' | 'shared' | 'saved' | 'copied' | 'viewed';
           platform?: string | null;
           created_at?: string;
           user_id?: string | null;

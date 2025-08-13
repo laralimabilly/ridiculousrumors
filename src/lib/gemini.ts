@@ -59,6 +59,7 @@ const CATEGORY_PROMPTS = {
     - Maximum 50 words
     - Reference everyday government/public systems with absurd secret purposes
     - Be clearly humorous and fictional
+    - Do not repeat yourself
     Generate only the conspiracy theory sentence, nothing else.
   `,
   'random': `
@@ -87,7 +88,7 @@ export interface GeneratedTheory {
 }
 
 export class GeminiService {
-  private model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  private model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite' });
 
   async generateConspiracyTheory(options: GenerateTheoryOptions): Promise<GeneratedTheory> {
     const { category, classification = 'TOP SECRET' } = options;

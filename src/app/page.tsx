@@ -29,10 +29,27 @@ export default function HomePage() {
 
   return (
     <MainLayout 
-      systemName="CONSPIRACY_NET"
+      systemName="RIDICULOUS_RUMORS"
       classification="TOP SECRET"
       showTelemetry={true}
     >
+      {/* Welcome Message */}
+      <div className="mb-8 text-center">
+        <div className="bg-green-900/20 border border-green-400/50 rounded-none p-6">
+          <div className="text-green-400 font-bold text-lg mb-3 font-mono">
+            WELCOME TO RIDICULOUS RUMORS
+          </div>
+          <div className="text-green-300 text-sm leading-relaxed font-mono">
+            Your premier destination for completely fictional and hilariously absurd conspiracy theories. 
+            Our AI-powered comedy generator creates outrageous theories for your entertainment. 
+            Remember: Everything here is FAKE, FUNNY, and FOR LAUGHS ONLY!
+          </div>
+          <div className="mt-4 text-yellow-400 text-xs font-mono animate-pulse">
+            ⚠️ SATIRE MODE ACTIVATED ⚠️
+          </div>
+        </div>
+      </div>
+
       <ConspiracyGenerator 
         onTheoryGenerated={handleTheoryGenerated}
         onTheoryShared={handleTheoryShared}

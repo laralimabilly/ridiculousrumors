@@ -18,7 +18,7 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ 
   children, 
   showTelemetry = true,
-  systemName = 'CONSPIRACY_NET',
+  systemName = 'RIDICULOUS_RUMORS',
   classification = 'TOP SECRET'
 }) => {
   const [systemBooted, setSystemBooted] = useState(false);
@@ -52,27 +52,34 @@ const MainLayout: React.FC<MainLayoutProps> = ({
           {/* ASCII Art Boot Logo */}
           <pre className="text-green-400 text-xs mb-8 leading-tight">
 {`
-  ██████╗ ██████╗ ███╗   ██╗███████╗██████╗ ██╗██████╗  █████╗  ██████╗██╗   ██╗
- ██╔════╝██╔═══██╗████╗  ██║██╔════╝██╔══██╗██║██╔══██╗██╔══██╗██╔════╝╚██╗ ██╔╝
- ██║     ██║   ██║██╔██╗ ██║███████╗██████╔╝██║██████╔╝███████║██║      ╚████╔╝ 
- ██║     ██║   ██║██║╚██╗██║╚════██║██╔═══╝ ██║██╔══██╗██╔══██║██║       ╚██╔╝  
- ╚██████╗╚██████╔╝██║ ╚████║███████║██║     ██║██║  ██║██║  ██║╚██████╗   ██║   
-  ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   
-                           MAINFRAME INITIALIZATION
+██████╗ ██╗██████╗ ██╗ ██████╗██╗   ██╗██╗      ██████╗ ██╗   ██╗███████╗
+██╔══██╗██║██╔══██╗██║██╔════╝██║   ██║██║     ██╔═══██╗██║   ██║██╔════╝
+██████╔╝██║██║  ██║██║██║     ██║   ██║██║     ██║   ██║██║   ██║███████╗
+██╔══██╗██║██║  ██║██║██║     ██║   ██║██║     ██║   ██║██║   ██║╚════██║
+██║  ██║██║██████╔╝██║╚██████╗╚██████╔╝███████╗╚██████╔╝╚██████╔╝███████║
+╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝ ╚══════╝
+
+██████╗ ██╗   ██╗███╗   ███╗ ██████╗ ██████╗ ███████╗
+██╔══██╗██║   ██║████╗ ████║██╔═══██╗██╔══██╗██╔════╝
+██████╔╝██║   ██║██╔████╔██║██║   ██║██████╔╝███████╗
+██╔══██╗██║   ██║██║╚██╔╝██║██║   ██║██╔══██╗╚════██║
+██║  ██║╚██████╔╝██║ ╚═╝ ██║╚██████╔╝██║  ██║███████║
+╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                    CONSPIRACY MAINFRAME INITIALIZATION
 `}
           </pre>
 
           {/* Boot Messages */}
           <div className="space-y-2 text-left text-xs mb-8">
-            <div className="animate-pulse">LOADING CLASSIFIED DATABASES...</div>
+            <div className="animate-pulse">LOADING CONSPIRACY DATABASES...</div>
             <div className="animate-pulse" style={{ animationDelay: '0.5s' }}>
-              ESTABLISHING SECURE CONNECTION...
+              ESTABLISHING SATIRE CONNECTION...
             </div>
             <div className="animate-pulse" style={{ animationDelay: '1s' }}>
-              INITIALIZING CONSPIRACY PROTOCOLS...
+              INITIALIZING HUMOR PROTOCOLS...
             </div>
             <div className="animate-pulse" style={{ animationDelay: '1.5s' }}>
-              VERIFYING CLEARANCE LEVEL...
+              VERIFYING FICTIONAL CLEARANCE...
             </div>
           </div>
 
@@ -104,7 +111,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         {/* Classification Banners */}
         <ClassificationBanner 
           level={classification}
-          additionalMarkings={['NOFORN', 'ORCON', 'IMCON']}
+          additionalMarkings={['FICTIONAL', 'SATIRE', 'COMEDY']}
           position="top"
         />
         
@@ -115,15 +122,34 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         <div className="text-center py-8 border-b border-green-400/30">
           <pre className="text-green-400 text-xs md:text-sm font-mono leading-tight">
 {`
- ██████╗ ██████╗ ███╗   ██╗███████╗██████╗ ██╗██████╗  █████╗  ██████╗██╗   ██╗
-██╔════╝██╔═══██╗████╗  ██║██╔════╝██╔══██╗██║██╔══██╗██╔══██╗██╔════╝╚██╗ ██╔╝
-██║     ██║   ██║██╔██╗ ██║███████╗██████╔╝██║██████╔╝███████║██║      ╚████╔╝ 
-██║     ██║   ██║██║╚██╗██║╚════██║██╔═══╝ ██║██╔══██╗██╔══██║██║       ╚██╔╝  
-╚██████╗╚██████╔╝██║ ╚████║███████║██║     ██║██║  ██║██║  ██║╚██████╗   ██║   
- ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   
-                        THEORY GENERATOR v2.1 - PROJECT DEEPTHROAT
+██████╗ ██╗██████╗ ██╗ ██████╗██╗   ██╗██╗      ██████╗ ██╗   ██╗███████╗
+██╔══██╗██║██╔══██╗██║██╔════╝██║   ██║██║     ██╔═══██╗██║   ██║██╔════╝
+██████╔╝██║██║  ██║██║██║     ██║   ██║██║     ██║   ██║██║   ██║███████╗
+██╔══██╗██║██║  ██║██║██║     ██║   ██║██║     ██║   ██║██║   ██║╚════██║
+██║  ██║██║██████╔╝██║╚██████╗╚██████╔╝███████╗╚██████╔╝╚██████╔╝███████║
+╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝ ╚══════╝
+
+██████╗ ██╗   ██╗███╗   ███╗ ██████╗ ██████╗ ███████╗
+██╔══██╗██║   ██║████╗ ████║██╔═══██╗██╔══██╗██╔════╝
+██████╔╝██║   ██║██╔████╔██║██║   ██║██████╔╝███████╗
+██╔══██╗██║   ██║██║╚██╔╝██║██║   ██║██╔══██╗╚════██║
+██║  ██║╚██████╔╝██║ ╚═╝ ██║╚██████╔╝██║  ██║███████║
+╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                      CONSPIRACY THEORY GENERATOR v2.1 - PROJECT DEEPTHROAT
 `}
           </pre>
+        </div>
+
+        {/* Disclaimer Banner */}
+        <div className="bg-yellow-900/20 border-y border-yellow-400/50 py-3 px-4 text-center">
+          <div className="text-yellow-400 text-sm font-bold mb-1">
+            ⚠️ FICTIONAL CONTENT DISCLAIMER ⚠️
+          </div>
+          <div className="text-yellow-300 text-xs max-w-4xl mx-auto">
+            All conspiracy theories generated by this system are completely fictional, humorous, and for entertainment purposes only. 
+            These theories do not represent real beliefs, facts, or the views of Ridiculous Rumors or its creators. 
+            Any resemblance to actual events, persons, or organizations is purely coincidental and unintentional.
+          </div>
         </div>
 
         {/* Main Content Area */}
@@ -148,16 +174,29 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         {/* Footer Classification */}
         <ClassificationBanner 
           level={classification}
-          additionalMarkings={['NOFORN', 'ORCON', 'IMCON']}
+          additionalMarkings={['FICTIONAL', 'SATIRE', 'COMEDY']}
           position="bottom"
         />
 
+        {/* Footer Disclaimer */}
+        <div className="bg-gray-900/50 border-t border-green-400/30 py-4 px-6 text-center">
+          <div className="text-green-400/70 text-xs space-y-2">
+            <div>
+              © 2024 Ridiculous Rumors. All generated content is fictional and for entertainment purposes only.
+            </div>
+            <div>
+              No actual conspiracy theories were harmed in the making of this website. 
+              Please consult your local reality for actual facts.
+            </div>
+          </div>
+        </div>
+
         {/* Corner Markings */}
         <div className="fixed bottom-4 left-4 text-green-400/50 text-xs">
-          CLASSIFIED // NOFORN // REL TO USA
+          FICTIONAL // COMEDY // FOR ENTERTAINMENT
         </div>
         <div className="fixed bottom-4 right-4 text-green-400/50 text-xs">
-          EST. 1962 // PROJECT CONSPIRACY
+          EST. 2024 // RIDICULOUS RUMORS
         </div>
       </div>
     </CRTScreen>

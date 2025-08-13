@@ -143,7 +143,7 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({ theory, onShare, onSave }
   return (
     <div className={`bg-black border-2 rounded-none p-6 relative font-mono animate-fadeIn ${getClassificationColor(theory.classification)}`}>
       <div className={`absolute top-0 left-0 right-0 text-center py-1 border-b text-xs font-bold tracking-widest ${theory.classification === 'TOP SECRET' ? 'bg-red-900/50 border-red-400' : 'bg-orange-900/50 border-orange-400'}`}>
-        {theory.classification} - UNAUTHORIZED DISCLOSURE PROHIBITED
+        {theory.classification} - UNAUTHORIZED DISCLOSURE PROHIBITED - RIDICULOUS RUMORS COMEDY DIVISION
       </div>
       
       <div className="mt-8 mb-6">
@@ -153,7 +153,7 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({ theory, onShare, onSave }
               &gt;&gt; INTELLIGENCE REPORT DECLASSIFIED &lt;&lt;
             </div>
             <div className="text-xs opacity-70 space-y-1">
-              <div>ORIGIN: DEEP_THROAT_7 | CLEARANCE: COSMIC</div>
+              <div>ORIGIN: DEEP_THROAT_7 | CLEARANCE: COMEDY</div>
               <div>DATE: {formatDate(theory.createdAt)} | CATEGORY: {theory.category.toUpperCase()}</div>
               <div>DOCUMENT_ID: {theory.id || 'UNASSIGNED'}</div>
             </div>
@@ -181,6 +181,18 @@ const TheoryDisplay: React.FC<TheoryDisplayProps> = ({ theory, onShare, onSave }
               `"${theory.content}"`
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Disclaimer */}
+      <div className="bg-yellow-900/20 border border-yellow-400/50 rounded-none p-3 mb-4">
+        <div className="flex items-center gap-2 text-yellow-400 text-xs font-bold mb-1">
+          <AlertTriangle className="w-3 h-3" />
+          SATIRICAL CONTENT WARNING
+        </div>
+        <div className="text-yellow-300 text-xs">
+          This theory is completely fictional and generated for entertainment purposes only. 
+          It does not represent real beliefs or facts. Ridiculous Rumors creates comedy content only.
         </div>
       </div>
 
