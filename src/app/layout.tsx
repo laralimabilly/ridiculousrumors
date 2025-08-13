@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Orbitron } from 'next/font/google';
 import Script from 'next/script';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -300,6 +301,7 @@ export default function RootLayout({
         />
         
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
