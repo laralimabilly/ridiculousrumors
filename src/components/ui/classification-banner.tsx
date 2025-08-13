@@ -39,7 +39,7 @@ const ClassificationBanner: React.FC<ClassificationBannerProps> = ({
       colorClasses,
       animate && 'animate-blink'
     )}>
-      {level} // {markingsText}
+      {level + ' // '} {markingsText}
     </div>
   );
 
