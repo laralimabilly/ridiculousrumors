@@ -11,7 +11,19 @@ const orbitron = Orbitron({
   subsets: ['latin'] 
 })
 
+// Get the base URL for metadata
+const getBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return 'http://localhost:3000';
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL(getBaseUrl()),
   title: "Ridiculous Rumors - AI Conspiracy Theory Generator for Comedy",
   description: "Generate hilarious and completely fictional conspiracy theories with our AI-powered comedy generator. Perfect for entertainment, creative writing, and getting a good laugh. All theories are satirical fiction.",
   keywords: [
@@ -49,13 +61,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ridiculousrumors.com",
+    url: "/", // This will resolve to the full URL with metadataBase
     siteName: "Ridiculous Rumors",
     title: "Ridiculous Rumors - AI Conspiracy Theory Generator",
     description: "Generate hilarious fictional conspiracy theories with AI. Perfect for comedy, entertainment, and creative inspiration. All content is satirical fiction.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.png", // This will resolve to the full URL
         width: 1200,
         height: 630,
         alt: "Ridiculous Rumors - AI Comedy Conspiracy Theory Generator",
@@ -79,7 +91,7 @@ export const metadata: Metadata = {
     title: "Ridiculous Rumors - AI Conspiracy Theory Generator",
     description: "Generate hilarious fictional conspiracy theories with AI. All content is satirical fiction for entertainment only.",
     images: {
-      url: "/twitter-image.png",
+      url: "/twitter-image.png", // This will resolve to the full URL
       alt: "Ridiculous Rumors - AI Comedy Generator",
     },
   },
@@ -107,13 +119,6 @@ export const metadata: Metadata = {
     //   pinterest: "your-pinterest-verification-code", // Uncomment and replace if needed
     // }
   },
-
-  // App links for mobile
-  // appLinks: {
-  //   web: {
-  //     url: "https://ridiculousrumors.com",
-  //   },
-  // },
 
   // Icons
   icons: {
@@ -145,19 +150,19 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://ridiculousrumors.com/#website",
-        "url": "https://ridiculousrumors.com",
+        "@id": `${getBaseUrl()}/#website`,
+        "url": getBaseUrl(),
         "name": "Ridiculous Rumors",
         "description": "AI-powered comedy conspiracy theory generator for entertainment",
         "publisher": {
-          "@id": "https://ridiculousrumors.com/#organization"
+          "@id": `${getBaseUrl()}/#organization`
         },
         "potentialAction": [
           {
             "@type": "SearchAction",
             "target": {
               "@type": "EntryPoint",
-              "urlTemplate": "https://ridiculousrumors.com/search?q={search_term_string}"
+              "urlTemplate": `${getBaseUrl()}/search?q={search_term_string}`
             },
             "query-input": "required name=search_term_string"
           }
@@ -166,15 +171,15 @@ export default function RootLayout({
       },
       {
         "@type": "Organization",
-        "@id": "https://ridiculousrumors.com/#organization",
+        "@id": `${getBaseUrl()}/#organization`,
         "name": "Ridiculous Rumors",
-        "url": "https://ridiculousrumors.com",
+        "url": getBaseUrl(),
         "logo": {
           "@type": "ImageObject",
           "inLanguage": "en-US",
-          "@id": "https://ridiculousrumors.com/#/schema/logo/image/",
-          "url": "https://ridiculousrumors.com/logo.png",
-          "contentUrl": "https://ridiculousrumors.com/logo.png",
+          "@id": `${getBaseUrl()}/#/schema/logo/image/`,
+          "url": `${getBaseUrl()}/logo.png`,
+          "contentUrl": `${getBaseUrl()}/logo.png`,
           "width": 512,
           "height": 512,
           "caption": "Ridiculous Rumors"
@@ -188,7 +193,7 @@ export default function RootLayout({
       {
         "@type": "WebApplication",
         "name": "Ridiculous Rumors Generator",
-        "url": "https://ridiculousrumors.com",
+        "url": getBaseUrl(),
         "description": "AI-powered conspiracy theory generator for entertainment and comedy",
         "applicationCategory": "Entertainment",
         "operatingSystem": "Web Browser",
@@ -198,7 +203,7 @@ export default function RootLayout({
           "priceCurrency": "USD"
         },
         "author": {
-          "@id": "https://ridiculousrumors.com/#organization"
+          "@id": `${getBaseUrl()}/#organization`
         }
       },
       {
@@ -212,7 +217,7 @@ export default function RootLayout({
         },
         "contentRating": "General Audiences",
         "creator": {
-          "@id": "https://ridiculousrumors.com/#organization"
+          "@id": `${getBaseUrl()}/#organization`
         }
       }
     ]
@@ -250,8 +255,8 @@ export default function RootLayout({
         {/* Google Ads */}
         <meta name="google-adsense-account" content="ca-pub-5777200462066598"></meta>
 
-        {/* Canonical URL */}
-        <link rel="canonical" href="https://ridiculousrumors.com" />
+        {/* Canonical URL - now uses metadataBase */}
+        <link rel="canonical" href={getBaseUrl()} />
 
         {/* Preconnect for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
