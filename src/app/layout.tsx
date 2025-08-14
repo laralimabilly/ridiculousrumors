@@ -277,6 +277,8 @@ export default function RootLayout({
             })(window,document,'script','dataLayer','GTM-PMVWTX73');
           `}
         </Script>
+
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5777200462066598" crossOrigin="anonymous"></Script>
         
       </head>
       <body className={`${jetbrainsMono.variable} ${orbitron.variable}`}>
